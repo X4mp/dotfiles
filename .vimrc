@@ -1,44 +1,10 @@
-" REQUIRED. This makes vim invoke Latex-Suite when you open a tex file.
-filetype plugin on
+" PLUGINS
+" set Terminal Colors to 256 colors for vim airline
+set t_Co=256
 
-" IMPORTANT: win32 users will need to have 'shellslash' set so that latex
-" can be called correctly.
-" set shellslash
-set shell=/bin/sh
+" encoding
+set encoding=utf-8
 
-" IMPORTANT: grep will sometimes skip displaying the file name if you
-" search in a singe file. This will confuse Latex-Suite. Set your grep
-" program to always generate a file-name.
-set grepprg=grep\ -nH\ $*
-
-" OPTIONAL: Starting with Vim 7, the filetype of empty .tex files defaults to
-" 'plaintex' instead of 'tex', which results in vim-latex not being loaded.
-" The following changes the default filetype back to 'tex':
-let g:tex_flavor = "latex"
-
-" compile latex files per default to PDF
-let g:Tex_DefaultTargetFormat='pdf'
-
-" specify pdf viewer
-let g:Tex_ViewRule_pdf = 'evince'
-
-" For compiling also with BibTex or just multiple times
-let g:Tex_MultipleCompileFormats='pdf,bib,pdf'
-" let g:Tex_MultipleCompileFormats='pdf,pdf'
-
-" OPTIONAL: This enables automatic indentation as you type.
-filetype indent on
-
-" get a list of completions when typing the beginning of a latex command and
-" hit 'tab' (http://stackoverflow.com/questions/3723493/latex-and-vim-usage)
-filetype on
-au FileType * exec("setlocal dictionary+=".$HOME."/.vim/dictionaries/".expand('<amatch>'))
-set complete+=k
-
-" break lines after 80 characters
-set tw=80
-
-" PLUGINS:
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
@@ -47,62 +13,38 @@ set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 " alternatively, pass a path where Vundle should install plugins
 "call vundle#begin('~/some/path/here')
-
+ 
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
-Plugin 'shougo/neocomplete.vim'
-Plugin 'gregsexton/gitv'
-Plugin 'christoomey/vim-tmux-navigator'
-"Plugin 'tpope/vim-fugitive'
-
-Bundle 'farseer90718/vim-taskwarrior'
+Plugin 'valloric/youcompleteme'
+"Plugin 'klen/python-mode'
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
+"Plugin 'shougo/neocomplete.vim'
+"Plugin 'gregsexton/gitv'
+"Plugin 'christoomey/vim-tmux-navigator'
+Plugin 'tpope/vim-fugitive'
+Plugin 'sirver/ultisnips'
+" Snippets are separated from the engine. Add this if you want them:
+Plugin 'honza/vim-snippets'
 
 call vundle#end()            " required
-" filetype plugin indent on    " required
-"------------------------------------------------------------
+filetype plugin indent on    " required
 
+" TERMINAL settings and Misc
+set shell=/bin/sh
 
-" Features {{{1
-"
-" These options and commands enable some very useful features in Vim, that
-" no user should have to live without.
-" Enable syntax highlighting
-syntax on
+" filetype indent on
 
-" Set 'nocompatible' to ward off unexpected things that your distro might
-" have made, as well as sanely reset options when re-sourcing .vimrc
-set nocompatible
-
-" Attempt to determine the type of a file based on its name and possibly its
-" contents. Use this to allow intelligent auto-indenting for each filetype,
-" and for plugins that are filetype specific.
-filetype plugin indent on
-
+" get a list of completions when typing the beginning of a latex command and
+" hit 'tab' (http://stackoverflow.com/questions/3723493/latex-and-vim-usage)
+"filetype on
+au FileType * exec("setlocal dictionary+=".$HOME."/.vim/dictionaries/".expand('<amatch>'))
+set complete+=k
 "------------------------------------------------------------
 " Must have options {{{1
 "
-" These are highly recommended options.
- 
-" Vim with default settings does not allow easy switching between multiple
-" files in the same editor window. Users can use multiple split windows or
-" multiple tab pages to edit multiple files, but it is still best to enable an option
-" to allow easier switching between files.
-
-" One such option is the 'hidden' option, which allows you to re-use the
-" same window and switch from an unsaved buffer without saving it first. Also
-" allows you to keep an undo history for multiple files when re-using the same
-" window in this way. Note that using persistent undo also lets you undo in
-" multiple files even in the same window, but is less efficient and is actually
-" designed for keeping undo history after closing Vim entirely. Vim will complain if
-" you try to quit without saving, and swap files will keep you safe if your
-" computer crashes.
 set hidden
-
-" Note that not everyone likes working this way (with the hidden option).
-" Alternatives include using tabs or split windows instead of re-using the
-" same window as mentioned above, and/or either of the following options:
-" set confirm
-" set autowriteall
 
 " Better command-line completion
 set wildmenu
@@ -112,21 +54,27 @@ set showcmd
 
 " Highlight searches (use <C-L> to temporarily turn off highlighting; see
 " the mapping of <C-L> below)
-set incsearch
 set hlsearch
 
-" Modelines have historically been a source of security vulnerabilities. As
-" such, it may be a good idea to disable them and use the securemodelines
-" script, <http://www.vim.org/scripts/script.php?script_id=1876>.
-" set nomodeline
+" As you type search
+set incsearch
 
+" show tabs and non-breakable spaces
+set listchars=tab:>>,nbsp:~ 
+
+" show lines above and below 
+set scrolloff=5
+
+" disable showmode since using vim-airline; otherwise use 'set showmode'
+set noshowmode
+
+" more history
+set history=8192
+
+" save read-only files
+"command -nargs=0 Sudow w !sudo tee % >/dev/null
 "------------------------------------------------------------
 " Usability options {{{1
-
-" These are options that users frequently set in their .vimrc. Some of them
-" change Vim's behaviour in ways which deviate from the true Vi way, but
-" which are considered to add usability. Which, if any, of these options to
-" use is very much a personal preference, but they are harmless.
 
 " Use case insensitive search, except when using capital letters
 set ignorecase
@@ -138,6 +86,9 @@ set backspace=indent,eol,start
 " When opening a new line and no filetype-specific indenting is enabled,
 " keep the same indent as the line you're currently on. Useful for READMEs, etc.
 set autoindent
+
+" Enable syntax highlighting
+syntax on
 
 " Stop certain movements from always going to the first character of a
 " line. While this behaviour deviates from that of Vi, it does what most users
@@ -179,34 +130,94 @@ set notimeout ttimeout ttimeoutlen=200
 " Use <F9> to toggle between 'paste' and 'nopaste'
 set pastetoggle=<F9>
 
-" Show a vertical red line at column 80
-" set colorcolumn=80
+" Set Mapleader key to '<'
+let mapleader = '<'
 
+" open new split panes to right and bottom, which feels more natural
+set splitbelow
+set splitright
+" quicker window movement
+"nnoremap <C-j> <C-w>j
+"noremap <C-k> <C-w>k
+"nnoremap <C-h> <C-w>h
+"nnoremap <C-l> <C-w>l
+
+" save file
+nnoremap <C-s> :w<CR>
 "------------------------------------------------------------
 " Indentation options {{{1
-
-" Indentation settings according to personal preference.
  
-" Indentation settings for using 4 spaces instead of tabs.
-" Do not change 'tabstop' from its default value of 8 with this setup.
 set shiftwidth=4
 set softtabstop=4
 set expandtab
 
-" Indentation settings for using hard tabs for indent. Display tabs as
-" four characters wide.
-"set shiftwidth=4
-set tabstop=4
-
 "------------------------------------------------------------
 " Mappings {{{1
-"
-" Useful mappings
  
 " Map Y to act like D and C, i.e. to yank until EOL, rather than act as yy,
 " which is the default
 map Y y$
 
+
 " Map <C-L> (redraw screen) to also turn off search highlighting until the
 " next search
-nnoremap <C-L> :nohl<CR><C-L>
+"nnoremap <C-L> :nohl<CR><C-L>
+"noremap  <Up> :echo "Don't be stupid"
+"noremap! <Up> <Esc>
+"noremap  <Down> :echo "Don't be stupid"
+"noremap! <Down> <Esc>
+"noremap  <Left> :echo "Don't be stupid"
+"noremap! <Left> <Esc>
+"noremap  <Right> :echo "Don't be stupid"
+"noremap! <Right> <Esc>
+"           
+
+"-------------------------------------------------------------
+" PLUGIN Configurations
+" IMPORTANT: grep will sometimes skip displaying the file name if you
+" search in a singe file. This will confuse Latex-Suite. Set your grep
+" program to always generate a file-name.
+set grepprg=grep\ -nH\ $*
+
+" OPTIONAL: Starting with Vim 7, the filetype of empty .tex files defaults to
+" 'plaintex' instead of 'tex', which results in vim-latex not being loaded.
+" The following changes the default filetype back to 'tex':
+let g:tex_flavor = "latex"
+
+" compile latex files per default to PDF
+let g:Tex_DefaultTargetFormat='pdf'
+
+" specify pdf viewer
+let g:Tex_ViewRule_pdf = 'evince'
+
+" For compiling also with BibTex or just multiple times
+let g:Tex_MultipleCompileFormats='pdf,bib,pdf'
+
+let g:ycm_python_binary_path = 'python'
+
+" airline
+" let g:airline_theme='molokai'
+let g:airline_powerline_fonts = 1
+let g:airline#extensions#tabline#enabled = 1
+let g:airline_theme='luna'
+
+"youcompleteme
+let g:ycm_autoclose_preview_window_after_insertion = 1
+
+let g:UltiSnipsExpandTrigger="<C-space>"
+let g:UltiSnipsJumpForwardTrigger="<c-b>"
+let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+let g:UltiSnipsUsePythonVersion = 2
+
+" let g:airline_right_sep = '◀'
+
+"---------------------
+"" Custom functions
+"---------------------
+"
+fun! TrimWhitespace()
+   let l:save = winsaveview()
+   %s/\s\+$//e
+   call winrestview(l:save)
+endfun
+

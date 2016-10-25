@@ -1,0 +1,10 @@
+#!/bin/bash
+
+tmux ls | grep '#!' > /dev/null || (
+#tmux new-session -d -s '#!' -n 'chat' 'firejail weechat-curses'
+#tmux new-window -n 'mail' 'firejail mutt'
+    tmux new-session -d -s '#!' -n 'Shell' zsh
+#    tmux new-window -n 'IPython' 'ipython'
+#   tmux select-window -t :0
+)
+exec tmux attach -t '#!'

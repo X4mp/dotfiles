@@ -1,12 +1,13 @@
+# If you come from bash you might have to change your $PATH.
+# export PATH=$HOME/bin:/usr/local/bin:$PATH
+
 # Path to your oh-my-zsh installation.
 ZSH=/usr/share/oh-my-zsh/
 
-# Set name of the theme to load.
-# Look in ~/.oh-my-zsh/themes/
-# Optionally, if you set this to "random", it'll load a random theme each
-# time that oh-my-zsh is loaded.
-#ZSH_THEME="xiong-chiamiov-plus"
-ZSH_THEME="bira"
+# Set name of the theme to load. Optionally, if you set this to "random"
+# it'll load a random theme each time that oh-my-zsh is loaded.
+# See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
+ZSH_THEME="daveverwer"
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -19,7 +20,7 @@ ZSH_THEME="bira"
 DISABLE_AUTO_UPDATE="true"
 
 # Uncomment the following line to change how often to auto-update (in days).
-# export UPDATE_ZSH_DAYS=30
+# export UPDATE_ZSH_DAYS=13
 
 # Uncomment the following line to disable colors in ls.
 # DISABLE_LS_COLORS="true"
@@ -50,24 +51,25 @@ DISABLE_AUTO_UPDATE="true"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(archlinux git common-aliases python systemd tmux)
+plugins=(git tmux common-alias)
+
 
 # User configuration
 
-export PATH=$HOME/bin:/usr/local/bin:$PATH
 # export MANPATH="/usr/local/man:$MANPATH"
-export VISUAL="vim"
 
 # You may need to manually set your language environment
-# export LANG=en_US.UTF-8
+ export LANG=en_US.UTF-8
+# export TERM=screen-256color
 
 # Preferred editor for local and remote sessions
 # if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
+#export EDITOR='vim'
 # else
 #   export EDITOR='mvim'
 # fi
 
+stty -ixon
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
 
@@ -87,6 +89,17 @@ ZSH_CACHE_DIR=$HOME/.oh-my-zsh-cache
 if [[ ! -d $ZSH_CACHE_DIR ]]; then
   mkdir $ZSH_CACHE_DIR
 fi
+
+## workaround for handling TERM variable in multiple tmux sessions properly from http://sourceforge.net/p/tmux/mailman/message/32751663/ by Nicholas Marriott
+#if [[ -n ${TMUX} && -n ${commands[tmux]} ]];then
+#        case $(tmux showenv TERM 2>/dev/null) in
+#                *256color) ;&
+#                TERM=fbterm)
+#                        TERM=screen-256color ;;
+#                *)
+#                        TERM=screen
+#        esac
+#fi
 
 source $ZSH/oh-my-zsh.sh
 
