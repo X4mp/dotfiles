@@ -209,7 +209,6 @@ let g:UltiSnipsJumpForwardTrigger="<c-b>"
 let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 let g:UltiSnipsUsePythonVersion = 2
 
-" let g:airline_right_sep = '◀'
 
 "---------------------
 "" Custom functions
