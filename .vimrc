@@ -63,7 +63,7 @@ set incsearch
 set listchars=tab:>>,nbsp:~ 
 
 " show lines above and below 
-set scrolloff=5
+set scrolloff=0
 
 " disable showmode since using vim-airline; otherwise use 'set showmode'
 set noshowmode
