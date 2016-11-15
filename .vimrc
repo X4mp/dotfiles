@@ -13,7 +13,7 @@ set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 " alternatively, pass a path where Vundle should install plugins
 "call vundle#begin('~/some/path/here')
- 
+
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
 Plugin 'valloric/youcompleteme'
@@ -27,6 +27,7 @@ Plugin 'tpope/vim-fugitive'
 Plugin 'sirver/ultisnips'
 " Snippets are separated from the engine. Add this if you want them:
 Plugin 'honza/vim-snippets'
+Plugin 'SpellChecker'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -46,6 +47,8 @@ set complete+=k
 "
 set hidden
 
+" for clever completeion wiht :find command
+set path+=**
 " Better command-line completion
 set wildmenu
 
@@ -60,9 +63,9 @@ set hlsearch
 set incsearch
 
 " show tabs and non-breakable spaces
-set listchars=tab:>>,nbsp:~ 
+set listchars=tab:>>,nbsp:~
 
-" show lines above and below 
+" show lines above and below
 set scrolloff=0
 
 " disable showmode since using vim-airline; otherwise use 'set showmode'
@@ -131,7 +134,7 @@ set notimeout ttimeout ttimeoutlen=200
 set pastetoggle=<F9>
 
 " Set Mapleader key to '<'
-let mapleader = '<'
+" let mapleader = '<'
 
 " open new split panes to right and bottom, which feels more natural
 set splitbelow
@@ -142,22 +145,26 @@ set splitright
 "nnoremap <C-h> <C-w>h
 "nnoremap <C-l> <C-w>l
 
-" save file
-nnoremap <C-s> :w<CR>
 "------------------------------------------------------------
 " Indentation options {{{1
- 
+
 set shiftwidth=4
 set softtabstop=4
 set expandtab
 
 "------------------------------------------------------------
 " Mappings {{{1
- 
+
 " Map Y to act like D and C, i.e. to yank until EOL, rather than act as yy,
 " which is the default
 map Y y$
 
+" save file
+nnoremap <C-s> :w<CR>
+
+" change to next tab
+nnoremap <Leader>< :tabp<CR>
+nnoremap <Leader>> :tabn<CR>
 
 " Map <C-L> (redraw screen) to also turn off search highlighting until the
 " next search
@@ -170,7 +177,7 @@ map Y y$
 "noremap! <Left> <Esc>
 "noremap  <Right> :echo "Don't be stupid"
 "noremap! <Right> <Esc>
-"           
+"
 
 "-------------------------------------------------------------
 " PLUGIN Configurations
