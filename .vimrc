@@ -9,27 +9,26 @@ set nocompatible              " be iMproved, required
 filetype off                  " required
 
 " set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
+" set rtp+=~/.vim/bundle/Vundle.vim
+" call vundle#begin()
+call plug#begin('~/.vim/plugged')
 " alternatively, pass a path where Vundle should install plugins
 "call vundle#begin('~/some/path/here')
 
 " let Vundle manage Vundle, required
-Plugin 'VundleVim/Vundle.vim'
-Plugin 'valloric/youcompleteme'
+" Plug 'VundleVim/Vundle.vim'
+Plug 'valloric/youcompleteme', { 'do': './install.sh'}
 "Plugin 'klen/python-mode'
-Plugin 'vim-airline/vim-airline'
-Plugin 'vim-airline/vim-airline-themes'
-"Plugin 'shougo/neocomplete.vim'
-"Plugin 'gregsexton/gitv'
-"Plugin 'christoomey/vim-tmux-navigator'
-Plugin 'tpope/vim-fugitive'
-Plugin 'sirver/ultisnips'
-" Snippets are separated from the engine. Add this if you want them:
-Plugin 'honza/vim-snippets'
-Plugin 'SpellChecker'
+Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'tpope/vim-fugitive'
+Plug 'sirver/ultisnips'
+Plug 'honza/vim-snippets'
+Plug '/home/roland/.vim/bundle/SpellChecker'
 
-call vundle#end()            " required
+" call vundle#end()            " require
+call plug#end()
 filetype plugin indent on    " required
 
 " TERMINAL settings and Misc
@@ -148,16 +147,17 @@ set splitright
 "------------------------------------------------------------
 " Indentation options {{{1
 
-set shiftwidth=4
-set softtabstop=4
 set expandtab
+set shiftwidth=2
+set softtabstop=2
+set tw=80
 
 "------------------------------------------------------------
 " Mappings {{{1
 
 " Map Y to act like D and C, i.e. to yank until EOL, rather than act as yy,
 " which is the default
-map Y y$
+" map Y y$
 
 " save file
 nnoremap <C-s> :w<CR>
@@ -178,7 +178,14 @@ nnoremap <Leader>> :tabn<CR>
 "noremap  <Right> :echo "Don't be stupid"
 "noremap! <Right> <Esc>
 "
+inoremap <F2> <C-R>=strftime('%c')<CR>
+command! AddHeading :normal i[+]<ESC>
+command! AddSubHeading :normal i  [-]<ESC>
 
+nnoremap th :AddHeading<CR>
+nnoremap tj :AddSubHeading<CR>
+
+nnoremap ' :noh<CR>
 "-------------------------------------------------------------
 " PLUGIN Configurations
 " IMPORTANT: grep will sometimes skip displaying the file name if you
@@ -216,6 +223,8 @@ let g:UltiSnipsJumpForwardTrigger="<c-b>"
 let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 let g:UltiSnipsUsePythonVersion = 2
 
+"nerdtree
+map <F2> :NERDTreeToggle<CR>
 
 "---------------------
 "" Custom functions
